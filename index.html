@@ -102,7 +102,6 @@
       align-items: center;
       gap: 0.9rem;
       margin-bottom: 1.75rem;
-      animation: rise 0.9s ease both;
     }
 
     .brand-mark {
@@ -140,7 +139,6 @@
       font-size: clamp(2rem, 5.4vw, 3.35rem);
       font-weight: 700;
       line-height: 1.25;
-      animation: rise 1s 0.12s ease both;
     }
 
     .hero-lead {
@@ -148,14 +146,24 @@
       max-width: 34rem;
       font-size: clamp(1rem, 2.2vw, 1.15rem);
       color: rgba(244, 251, 248, 0.86);
-      animation: rise 1s 0.24s ease both;
     }
 
     .cta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.85rem;
-      animation: rise 1s 0.36s ease both;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero.is-ready .brand,
+      .hero.is-ready h1,
+      .hero.is-ready .hero-lead,
+      .hero.is-ready .cta-row {
+        animation: rise 0.85s ease both;
+      }
+      .hero.is-ready h1 { animation-delay: 0.08s; }
+      .hero.is-ready .hero-lead { animation-delay: 0.16s; }
+      .hero.is-ready .cta-row { animation-delay: 0.24s; }
     }
 
     .btn {
@@ -649,8 +657,8 @@
     }
 
     @keyframes rise {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { transform: translateY(14px); }
+      to { transform: translateY(0); }
     }
 
     @keyframes float-y {
@@ -935,6 +943,13 @@
 
   <script>
     (function () {
+      var hero = document.querySelector(".hero");
+      if (hero) {
+        requestAnimationFrame(function () {
+          hero.classList.add("is-ready");
+        });
+      }
+
       var nodes = document.querySelectorAll(".reveal");
       if (!("IntersectionObserver" in window)) {
         nodes.forEach(function (el) { el.classList.add("visible"); });
